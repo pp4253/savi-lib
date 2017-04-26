@@ -14,6 +14,7 @@ import { GET_EVENT_IMAGE_URI } from '../provider/config';
 import { EVENT_SIGNUP_URI } from '../provider/config';
 import { SERVER } from '../provider/config';
 import { UserServices } from '../service/user';
+import { GET_ADMIN_PROFILE_CONTACTS_URI } from '../provider/config';
 
 @Injectable()
 export class VolunteerEventsService {
@@ -105,6 +106,20 @@ export class VolunteerEventsService {
             .map(res => res.json())
             .catch((error: any) => Observable.throw(error || 'Server error'));
     }
+  
+    //Get Contacts
+    getContacts(): Observable< string[]> {
+        return this.http.get(SERVER + GET_ADMIN_PROFILE_CONTACTS_URI, this.getOptions())
+            .map(res => res.json())
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'));
+    }
+
+    //Update Contact --
+    updateContact( eventDetail : EventDetail, contact ): Observable<any>{
+       return this.http.put(SERVER + GET_ADMIN_EVENT_DETAILS_URI+eventDetail.id+"/", contact, this.getOptions())
+            .map(res => res.json())
+            .catch((error: any) => Observable.throw(error || 'Server error'));
+    }    
 
     //Cancel Event
     cancelEvent( eventId: string ): Observable<any>{
